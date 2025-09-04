@@ -15,7 +15,7 @@ This project sets up a basic Flask web interface to send commands to a device co
 1. **Clone the repository:**
 
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/usai729/airlight-iot
     cd <repository_directory>
     ```
 
