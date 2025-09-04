@@ -1,6 +1,6 @@
 import socket as Socket
 import threading
-from flask import Flask, jsonify, render_template_string
+from flask import Flask, jsonify, render_template_string, request
 
 app = Flask(__name__)
 
@@ -17,6 +17,7 @@ HTML_TEMPLATE = """
 <body>
     <h1>Device Control Panel</h1>
     <button onclick="sendCommand('on')">Turn ON</button>
+    <button onclick="sendCommand('exit')">Exit</button>
     <button onclick="sendCommand('off')">Turn OFF</button>
     <p id="response">{{ message }}</p>
 
@@ -60,6 +61,17 @@ def turn_off():
                 return render_template_string(HTML_TEMPLATE, message=f"Failed to send OFF: {str(e)}")
         else:
             return render_template_string(HTML_TEMPLATE, message="No client connected.")
+    
+@app.route("/exit")
+def exit_app():
+    if client_socket:
+        client_socket.close()
+
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func:
+        func()
+
+    return render_template_string(HTML_TEMPLATE, message="Exited with status 200")
 
 def run_flask():
     app.run(host='0.0.0.0', port=5000)
@@ -67,14 +79,16 @@ def run_flask():
 def run_tcp_server():
     global client_socket
 
-    port: int = 8080
+    port: int = 8000
     host: str = Socket.gethostname()
+
+    print(f"[TCP] Host: {host}\n[TCP] Port: {port}")
 
     try:
         server_socket = Socket.socket(Socket.AF_INET, Socket.SOCK_STREAM)
         server_socket.bind((host, port))
         server_socket.listen(1)
-        print(f"[TCP] TCP Server listening on {host}:{port}")
+        print(f"[TCP] TCP Server listening on {host}:{port} | Listening for connections...")
 
         client_socket, client_address = server_socket.accept()
         print(f"[TCP] Connection from {client_address} has been established!")

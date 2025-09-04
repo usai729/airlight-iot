@@ -1,7 +1,7 @@
 import socket as Socket
 
 client_socket: Socket.socket = None
-port: int = 8080
+port: int = 8000
 host: str = Socket.gethostname()
 
 try:
