@@ -25,7 +25,8 @@ This setup can be used for **IoT projects** like controlling lights, appliances,
 
 ## Contributors
 
--   [Your Name](https://github.com/usai729)
+-   [Uttarkar Sai Nath Rao - Github](https://github.com/usai729)
+-   [Uttarkar Sai Nath Rao - Linkedin](https://linkedin.com/in/saiuttarkar)
 
 ---
 
